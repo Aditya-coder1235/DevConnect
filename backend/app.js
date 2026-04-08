@@ -17,6 +17,7 @@ app.use(cors({
 
 const authRouter = require('./routes/auth.routes');
 const userRouter=require('./routes/user.routes');
+const projectRouter=require('./routes/project.route');
 
 app.get('/', (req, res) => {
     res.send('Hi, i am Root!');
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/project', projectRouter);
 
 
 app.listen(port, () => {

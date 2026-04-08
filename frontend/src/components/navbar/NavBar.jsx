@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Search, Moon, Sun , Bell} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const [dark, setDark] = useState(false);
+    const navigate=useNavigate()
 
     useEffect(() => {
         if (dark) {
@@ -44,7 +46,7 @@ const NavBar = () => {
                     <Button variant="ghost" size="icon">
                         <Bell />
                     </Button>
-                    <Avatar>
+                    <Avatar onClick={()=>navigate('/dashboard/profile')} className={"cursor-pointer"}>
                         <AvatarImage src="https://github.com/evilrabbit.png" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>

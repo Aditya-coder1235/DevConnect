@@ -17,6 +17,8 @@ import MyProjects from "@/pages/dashboard/MyProjects";
 import Profile from "@/pages/dashboard/Profile";
 import Setting from "@/pages/dashboard/Setting";
 import Notification from "@/pages/dashboard/Notification";
+import UpdateProfile from "@/pages/dashboard/UpdateProfile";
+import CreateProject from "@/pages/dashboard/CreateProject";
 
 const AppRoutes = () => {
     return (
@@ -36,6 +38,8 @@ const AppRoutes = () => {
                 <Route index path="projects" element={<MyProjects />} />
                 <Route index path="profile" element={<Profile />} />
                 <Route index path="notification" element={<Notification />} />
+                <Route index path="updateProfile" element={<UpdateProfile />} />
+                <Route index path="createProject" element={<CreateProject />} />
 
                 <Route index path="settings" element={<Setting />} />
             </Route>

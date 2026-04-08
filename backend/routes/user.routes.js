@@ -5,5 +5,7 @@ const isAuth = require('../middleware/auth.middleware');
 
 router.post('/complete', isAuth, userController.completeProfile);
 router.get('/getProfile', isAuth, userController.getProfile);
+router.put("/update", isAuth, userController.updateProfile)
+router.delete("/delete", isAuth, userController.deleteAccount);
 
 module.exports = router;

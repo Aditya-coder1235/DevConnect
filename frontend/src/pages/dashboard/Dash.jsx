@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Sparkles, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import ProjectCard from "@/components/ProjectCard";
 
 const Dash = () => {
     const navigate = useNavigate();
@@ -20,9 +23,52 @@ const Dash = () => {
         }
     }, [navigate]);
 
+
+    const hour = new Date().getHours();
+
+    let greeting = "";
+
+    if (hour < 12) {
+        greeting = "Morning";
+    } else if (hour < 17) {
+        greeting = "Afternoon";
+    } else if (hour < 21) {
+        greeting = "Evening";
+    } else {
+        greeting = "Night";
+    }
+
+    // console.log(`Good ${greeting}`);
+
     return (
         <div>
-            <h2>hhh</h2>
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
+                <Sparkles className="size-3.5 text-primary" />
+                Good {greeting} — here&apos;s your workspace pulse
+            </div>
+            <div className="flex mt-5 items-center">
+                <div className="flex-1">
+                    <h2 className="text-2xl font-bold">Dashboard</h2>
+                    <p className="text-sm opacity-60 mt-2">
+                        Discover projects, keep collaborations moving, and grow
+                        your network.
+                    </p>
+                </div>
+                <div>
+                    <Button onClick={()=>navigate('/dashboard/createProject')}>
+                        New Project <ArrowRight className="size-4" />
+                    </Button>
+                </div>
+            </div>
+
+            <div className="mt-10 flex justify-between items-center">
+                <h2 className="text-[18px] opacity-60">Recommended projects</h2>
+                <button className="text-sm hover:bg-gray-300 p-1 rounded transition">Browse all</button>
+            </div>
+
+            <div className="mt-5">
+                <ProjectCard/>
+            </div>
         </div>
     );
 };
