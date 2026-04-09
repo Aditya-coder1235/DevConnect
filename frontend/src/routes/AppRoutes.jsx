@@ -19,6 +19,7 @@ import Setting from "@/pages/dashboard/Setting";
 import Notification from "@/pages/dashboard/Notification";
 import UpdateProfile from "@/pages/dashboard/UpdateProfile";
 import CreateProject from "@/pages/dashboard/CreateProject";
+import ProjectDetails from "@/pages/dashboard/ProjectDetails";
 
 const AppRoutes = () => {
     return (
@@ -35,11 +36,12 @@ const AppRoutes = () => {
                 <Route index path="developer" element={<Developers />} />
                 <Route index path="message" element={<Messages />} />
                 <Route index path="projects" element={<Projects />} />
-                <Route index path="projects" element={<MyProjects />} />
+                <Route index path="myProjects" element={<MyProjects />} />
                 <Route index path="profile" element={<Profile />} />
                 <Route index path="notification" element={<Notification />} />
                 <Route index path="updateProfile" element={<UpdateProfile />} />
                 <Route index path="createProject" element={<CreateProject />} />
+                <Route index path="projectDetail/:id" element={<ProjectDetails />} />
 
                 <Route index path="settings" element={<Setting />} />
             </Route>

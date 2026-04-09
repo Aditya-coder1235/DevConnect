@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 
 const stackChoices = [
     "React",
@@ -26,11 +28,14 @@ const stackChoices = [
 ];
 
 function CreateProject() {
+    const navigate=useNavigate()
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [teamSize, setTeamSize] = useState(1);
     const [status, setStatus] = useState("open");
     const [techStack, setTechStack] = useState(["React"]);
+    const [githubLink, setGithubLink]=useState("")
 
     const toggleStack = (item) => {
         if (techStack.includes(item)) {
@@ -40,21 +45,34 @@ function CreateProject() {
         }
     };
 
+    async function createProject() {
+        try {
+            let res = await axios.post(
+                "http://localhost:8080/api/project/create",
+                { title, description, teamSize, status, techStack, githubLink },
+                { withCredentials: true },
+            );
+
+            Swal.fire({
+                title: "Project create successful!",
+                icon: "success",
+                draggable: true,
+            });
+
+            console.log(res.data);
+            navigate("/dashboard/myProjects");
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${error?.response?.data?.message || "Something went wrong!"}`,
+            });
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const projectData = {
-            title,
-            description,
-            techStack,
-            teamSize,
-            status,
-        };
-
-        console.log(projectData);
-
-        // later you will call API
-        // axios.post("/api/projects/create", projectData)
+        createProject();
     };
 
     return (
@@ -79,7 +97,6 @@ function CreateProject() {
 
                 <CardContent className="space-y-6">
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Title */}
                         <div className="space-y-2">
                             <Label>Title</Label>
                             <Input
@@ -89,7 +106,6 @@ function CreateProject() {
                             />
                         </div>
 
-                        {/* Description */}
                         <div className="space-y-2">
                             <Label>Description</Label>
                             <Textarea
@@ -100,7 +116,6 @@ function CreateProject() {
                             />
                         </div>
 
-                        {/* Team Size */}
                         <div className="space-y-2">
                             <Label>Team Size</Label>
                             <Input
@@ -111,7 +126,15 @@ function CreateProject() {
                             />
                         </div>
 
-                        {/* Status */}
+                        <div className="space-y-2">
+                            <Label>Github Link</Label>
+                            <Input
+                                placeholder="write your github repo link"
+                                value={githubLink}
+                                onChange={(e) => setGithubLink(e.target.value)}
+                            />
+                        </div>
+
                         <div className="space-y-2">
                             <Label>Status</Label>
                             <select
@@ -125,7 +148,6 @@ function CreateProject() {
                             </select>
                         </div>
 
-                        {/* Tech Stack */}
                         <div className="space-y-2">
                             <Label>Tech Stack</Label>
                             <div className="flex flex-wrap gap-2">
@@ -163,6 +185,5 @@ function CreateProject() {
         </div>
     );
 }
-
 
 export default CreateProject;

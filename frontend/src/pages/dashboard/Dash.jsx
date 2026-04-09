@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/ProjectCard";
+import axios from "axios";
 
 const Dash = () => {
     const navigate = useNavigate();
+    const[project,setProject]=useState([])
 
     useEffect(() => {
         const profileCompleted = localStorage.getItem("profile");
@@ -39,6 +41,23 @@ const Dash = () => {
     }
 
     // console.log(`Good ${greeting}`);
+     async function fetchProject() {
+         try {
+             let res = await axios.get(
+                 "http://localhost:8080/api/project",
+                 { withCredentials: true },
+             );
+
+             setProject(res.data.projects);
+            //  navigate("/dashboard/myProjects");
+         } catch (error) {
+             console.log(error)
+         }
+     }
+
+     useEffect(()=>{
+        fetchProject()
+     },[])
 
     return (
         <div>
@@ -55,7 +74,9 @@ const Dash = () => {
                     </p>
                 </div>
                 <div>
-                    <Button onClick={()=>navigate('/dashboard/createProject')}>
+                    <Button
+                        onClick={() => navigate("/dashboard/createProject")}
+                    >
                         New Project <ArrowRight className="size-4" />
                     </Button>
                 </div>
@@ -63,11 +84,18 @@ const Dash = () => {
 
             <div className="mt-10 flex justify-between items-center">
                 <h2 className="text-[18px] opacity-60">Recommended projects</h2>
-                <button className="text-sm hover:bg-gray-300 p-1 rounded transition">Browse all</button>
+                <button
+                    onClick={() => navigate("/dashboard/projects")}
+                    className="text-sm hover:bg-gray-300 p-1 rounded transition"
+                >
+                    Browse all
+                </button>
             </div>
 
-            <div className="mt-5">
-                <ProjectCard/>
+            <div className="mt-5 grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {project.slice(0, 3).map((project) => (
+                    <ProjectCard key={project._id} project={project} />
+                ))}
             </div>
         </div>
     );

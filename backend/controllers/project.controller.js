@@ -3,7 +3,7 @@ const Project = require("../models/project.model");
 async function createProject(req, res) {
     try {
 
-        const { title, description, techStack, teamSize, members, status } = req.body;
+        const { title, description, techStack, teamSize, members, status, githubLink } = req.body;
 
         if (!title) {
             return res.status(400).json({ message: "Title is required" });
@@ -16,6 +16,7 @@ async function createProject(req, res) {
             teamSize,
             members,
             status,
+            githubLink,
             owner: req.user.id
         });
 

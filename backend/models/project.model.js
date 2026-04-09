@@ -38,6 +38,9 @@ const projectSchema = new mongoose.Schema({
         type: String,
         enum: ["open", "in-progress", "completed"],
         default: "open"
+    },
+    githubLink:{
+        type: String,
     }
 
 }, { timestamps: true });

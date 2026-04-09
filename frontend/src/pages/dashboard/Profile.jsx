@@ -32,7 +32,7 @@ const experienceOptions = ["Beginner", "Intermediate", "Advanced"];
 
 function Profile() {
     const navigate = useNavigate();
-    const[info,setInfo]=useState(null)
+    const [info, setInfo] = useState(null);
 
     const [skills, setSkills] = useState([]);
     const [bio, setBio] = useState("");
@@ -104,7 +104,7 @@ function Profile() {
                     withCredentials: true,
                 },
             );
-            setInfo(res.data.user)
+            setInfo(res.data.user);
         } catch (error) {
             console.log(error);
         }
@@ -117,12 +117,11 @@ function Profile() {
     const profile = localStorage.getItem("profile");
 
     // console.log(profile);
-            console.log(info);
-
+    console.log(info);
 
     return (
         <div>
-            {profile && info ? (
+            {profile === "true" && info ? (
                 <div className="space-y-6">
                     <div className="flex items-center gap-4">
                         <img
