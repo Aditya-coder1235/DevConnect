@@ -109,4 +109,86 @@ async function deleteAccount(req, res) {
     }
 }
 
-module.exports = { completeProfile, getProfile , updateProfile, deleteAccount}
+async function getAllProfile(req, res) {
+    try {
+        let allUsers =await User.find()
+
+        res.status(200).json({ message: "User fetched", allUsers })
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+async function followUser(req, res) {
+
+    try {
+
+        const userId = req.user.id
+        const targetUserId = req.params.id
+
+        if (userId === targetUserId) {
+            return res.status(400).json({ message: "You cannot follow yourself" })
+        }
+
+        const user = await User.findById(userId)
+        const targetUser = await User.findById(targetUserId)
+
+        if (!targetUser) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        if (user.following.includes(targetUserId)) {
+            return res.status(400).json({ message: "Already following" })
+        }
+
+        user.following.push(targetUserId)
+        targetUser.followers.push(userId)
+
+        await user.save()
+        await targetUser.save()
+
+        res.json({ message: "User followed successfully" })
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+
+}
+
+async function unfollowUser(req, res) {
+
+    const userId = req.user.id
+    const targetUserId = req.params.id
+
+    await User.findByIdAndUpdate(userId, {
+        $pull: { following: targetUserId }
+    })
+
+    await User.findByIdAndUpdate(targetUserId, {
+        $pull: { followers: userId }
+    })
+
+    res.json({ message: "Unfollowed successfully" })
+}
+
+async function getFollowerList(req, res) {
+    let userId = req.user.id;
+
+    const user = await User.findById(userId)
+        .populate("followers", "name avatar skills")
+
+    res.json(user.followers)
+}
+
+module.exports = {
+    completeProfile,
+    getProfile,
+    updateProfile,
+    deleteAccount,
+    getAllProfile,
+    followUser,
+    unfollowUser,
+    getFollowerList
+};
