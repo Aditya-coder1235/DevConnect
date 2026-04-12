@@ -1,6 +1,6 @@
 import { GitBranch, Link2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useEffect,useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -13,31 +13,37 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+
 import axios from "axios";
 import Swal from "sweetalert2";
 
 function DeveloperCard({ developer }) {
     const [isFollowing, setIsFollowing] = useState(false);
+    const navigate = useNavigate();
+
+    let userid = localStorage.getItem("id");
+
+    useEffect(() => {
+        if (developer.followers?.includes(userid)) {
+            setIsFollowing(true);
+        }
+    }, [developer.followers, userid]);
 
     async function followDev(id) {
         try {
-            const res = await axios.post(
+            await axios.post(
                 `http://localhost:8080/api/user/follow/${id}`,
                 {},
-                {
-                    withCredentials: true,
-                },
+                { withCredentials: true },
             );
+
             Swal.fire({
                 title: "Follow successful!",
                 icon: "success",
-                draggable: true,
             });
-            setIsFollowing(true);
 
-            // console.log(res.data);
+            setIsFollowing(true);
         } catch (error) {
-            // console.log(error);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -48,24 +54,19 @@ function DeveloperCard({ developer }) {
 
     async function unFollowDev(id) {
         try {
-            const res = await axios.post(
+            await axios.post(
                 `http://localhost:8080/api/user/unfollow/${id}`,
                 {},
-                {
-                    withCredentials: true,
-                },
+                { withCredentials: true },
             );
 
             Swal.fire({
                 title: "Unfollow successful!",
                 icon: "success",
-                draggable: true,
             });
 
-            setIsFollowing(true)
-            // console.log(res.data);
+            setIsFollowing(false);
         } catch (error) {
-            // console.log(error);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -73,15 +74,28 @@ function DeveloperCard({ developer }) {
             });
         }
     }
-    // console.log(developer.followers)
-    let userid = localStorage.getItem("id");
-    // console.log(userid);
 
-    useEffect(() => {
-        if (developer.followers?.includes(userid)) {
-            setIsFollowing(true);
+    /* CONNECT BUTTON LOGIC */
+
+    async function startConversation(receiverId) {
+        try {
+            const res = await axios.post(
+                `http://localhost:8080/api/conversation/start/${receiverId}`,
+                {},
+                { withCredentials: true },
+            );
+
+            const conversationId = res.data._id;
+
+            navigate(`/dashboard/message/${conversationId}`);
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Chat Error",
+                text: "Unable to start conversation",
+            });
         }
-    }, [developer.followers, userid]);
+    }
 
     return (
         <Card className="flex flex-col transition-shadow hover:shadow-md">
@@ -93,15 +107,18 @@ function DeveloperCard({ developer }) {
                             alt={developer.name}
                         />
                     ) : null}
+
                     <AvatarFallback className="text-sm">
                         {developer.name}
                     </AvatarFallback>
                 </Avatar>
+
                 <div className="min-w-0 flex justify-between items-start">
                     <div className="flex-1">
                         <CardTitle className="text-base">
                             {developer.name}
                         </CardTitle>
+
                         <p className="text-sm text-muted-foreground">
                             @{developer.email}
                         </p>
@@ -114,12 +131,14 @@ function DeveloperCard({ developer }) {
                     )}
                 </div>
             </CardHeader>
+
             <CardContent className="flex flex-1 flex-col gap-3 pb-4">
                 <CardDescription className="line-clamp-2 text-sm">
                     {developer.bio}
                 </CardDescription>
+
                 <div className="flex flex-wrap gap-1.5">
-                    {developer.skills.slice(0, 5).map((skill) => (
+                    {developer.skills?.slice(0, 5).map((skill) => (
                         <Badge
                             key={skill}
                             variant="secondary"
@@ -130,10 +149,20 @@ function DeveloperCard({ developer }) {
                     ))}
                 </div>
             </CardContent>
+
             <CardFooter className="mt-auto flex flex-wrap gap-2 border-t border-border/60 bg-muted/30 pt-4">
-                <Button size="sm" className="flex-1 sm:flex-none">
+                {/* CONNECT BUTTON */}
+
+                <Button
+                    size="sm"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => startConversation(developer._id)}
+                >
                     Connect
                 </Button>
+
+                {/* FOLLOW */}
+
                 <Button
                     size="sm"
                     variant="ghost"
@@ -143,6 +172,9 @@ function DeveloperCard({ developer }) {
                 >
                     Follow
                 </Button>
+
+                {/* UNFOLLOW */}
+
                 <Button
                     size="sm"
                     variant="ghost"
@@ -152,6 +184,9 @@ function DeveloperCard({ developer }) {
                 >
                     Unfollow
                 </Button>
+
+                {/* GITHUB */}
+
                 {developer.github && (
                     <Button
                         size="icon"
@@ -168,6 +203,9 @@ function DeveloperCard({ developer }) {
                         </a>
                     </Button>
                 )}
+
+                {/* PORTFOLIO */}
+
                 {developer.portfolio && (
                     <Button
                         size="icon"

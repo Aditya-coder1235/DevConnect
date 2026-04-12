@@ -12,6 +12,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import Dash from "@/pages/dashboard/Dash";
 import Developers from "@/pages/dashboard/Developers";
 import Messages from "@/pages/dashboard/Messages";
+import MessagesList from "@/pages/dashboard/MessagesList";
 import Projects from "@/pages/dashboard/Projects";
 import MyProjects from "@/pages/dashboard/MyProjects";
 import Profile from "@/pages/dashboard/Profile";
@@ -34,14 +35,23 @@ const AppRoutes = () => {
                 {/* <Route index element={<Index />} /> */}
                 <Route index path="dash" element={<Dash />} />
                 <Route index path="developer" element={<Developers />} />
-                <Route index path="message" element={<Messages />} />
+                <Route
+                    index
+                    path="message/:conversationId"
+                    element={<Messages />}
+                />
                 <Route index path="projects" element={<Projects />} />
                 <Route index path="myProjects" element={<MyProjects />} />
                 <Route index path="profile" element={<Profile />} />
                 <Route index path="notification" element={<Notification />} />
                 <Route index path="updateProfile" element={<UpdateProfile />} />
                 <Route index path="createProject" element={<CreateProject />} />
-                <Route index path="projectDetail/:id" element={<ProjectDetails />} />
+                <Route index path="message" element={<MessagesList />} />
+                <Route
+                    index
+                    path="projectDetail/:id"
+                    element={<ProjectDetails />}
+                />
 
                 <Route index path="settings" element={<Setting />} />
             </Route>
