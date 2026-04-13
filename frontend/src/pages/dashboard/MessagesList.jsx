@@ -17,7 +17,6 @@ const MessagesPage = () => {
 
     const userId = localStorage.getItem("id");
 
-    /* ---------------- GET CONVERSATIONS ---------------- */
 
     useEffect(() => {
         async function fetchConversations() {
@@ -51,7 +50,6 @@ const MessagesPage = () => {
         fetchConversations();
     }, [userId]);
 
-    /* ---------------- GET MESSAGES ---------------- */
 
     useEffect(() => {
         if (!activeThreadId) return;
@@ -79,7 +77,6 @@ const MessagesPage = () => {
         fetchMessages();
     }, [activeThreadId, userId]);
 
-    /* ---------------- SELECT THREAD ---------------- */
 
     function onSelectThread(id) {
         setActiveThreadId(id);
@@ -87,7 +84,6 @@ const MessagesPage = () => {
 
     const active = threads.find((t) => t.id === activeThreadId);
 
-    /* ---------------- SEND MESSAGE ---------------- */
 
     async function sendMessage() {
         if (!draft.trim()) return;
@@ -120,7 +116,6 @@ const MessagesPage = () => {
 
     return (
         <div className="flex h-[min(640px,calc(100dvh-12rem))] min-h-[420px] overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-            {/* ---------------- LEFT SIDEBAR ---------------- */}
 
             <aside className="hidden min-h-0 w-72 shrink-0 flex-col border-r border-border md:flex">
                 <div className="border-b border-border px-4 py-3">
@@ -169,7 +164,6 @@ const MessagesPage = () => {
                 </ScrollArea>
             </aside>
 
-            {/* ---------------- RIGHT CHAT AREA ---------------- */}
 
             <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                 {/* CHAT HEADER */}
@@ -199,7 +193,6 @@ const MessagesPage = () => {
                     </div>
                 </header>
 
-                {/* MESSAGES */}
 
                 <ScrollArea className="min-h-0 flex-1 p-4">
                     <div className="space-y-4">
@@ -238,7 +231,6 @@ const MessagesPage = () => {
 
                 <Separator />
 
-                {/* MESSAGE INPUT */}
 
                 <div className="flex items-center gap-2 p-3">
                     <Input

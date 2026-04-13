@@ -9,7 +9,6 @@ const {
 const isAuth = require("../middleware/auth.middleware")
 
 router.post("/", isAuth, sendMessage)
-
 router.get("/:conversationId", isAuth, getMessages)
 
 module.exports = router

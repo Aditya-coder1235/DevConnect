@@ -1,6 +1,5 @@
 const Conversation = require("../models/conversation.model");
 
-/* CREATE CONVERSATION */
 
 async function createConversation(req, res) {
 
@@ -30,7 +29,6 @@ async function createConversation(req, res) {
     }
 }
 
-/* GET USER CONVERSATIONS (needed for message list page) */
 
 async function getUserConversations(req, res) {
 

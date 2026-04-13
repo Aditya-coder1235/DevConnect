@@ -15,7 +15,7 @@ const Messages = () => {
 
     const scrollRef = useRef();
 
-    /* LOAD MESSAGES */
+    
 
     useEffect(() => {
         async function getMessages() {
@@ -34,7 +34,7 @@ const Messages = () => {
         getMessages();
     }, [conversationId]);
 
-    /* SOCKET */
+  
 
     useEffect(() => {
         socket.emit("addUser", userId);
@@ -53,8 +53,7 @@ const Messages = () => {
         return () => socket.off("getMessage");
     }, [userId, conversationId]);
 
-    /* SEND MESSAGE */
-
+   
     async function sendMessage() {
         if (!text) return;
 
@@ -88,13 +87,13 @@ const Messages = () => {
         }
     }
 
-    /* AUTO SCROLL */
+
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    /* FRIEND USER */
+  
 
     const conversation = messages[0]?.conversationId;
 

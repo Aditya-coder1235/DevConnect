@@ -75,7 +75,6 @@ function DeveloperCard({ developer }) {
         }
     }
 
-    /* CONNECT BUTTON LOGIC */
 
     async function startConversation(receiverId) {
         try {
@@ -151,7 +150,6 @@ function DeveloperCard({ developer }) {
             </CardContent>
 
             <CardFooter className="mt-auto flex flex-wrap gap-2 border-t border-border/60 bg-muted/30 pt-4">
-                {/* CONNECT BUTTON */}
 
                 <Button
                     size="sm"
@@ -161,7 +159,6 @@ function DeveloperCard({ developer }) {
                     Connect
                 </Button>
 
-                {/* FOLLOW */}
 
                 <Button
                     size="sm"
@@ -173,7 +170,6 @@ function DeveloperCard({ developer }) {
                     Follow
                 </Button>
 
-                {/* UNFOLLOW */}
 
                 <Button
                     size="sm"
@@ -185,7 +181,6 @@ function DeveloperCard({ developer }) {
                     Unfollow
                 </Button>
 
-                {/* GITHUB */}
 
                 {developer.github && (
                     <Button
@@ -203,8 +198,6 @@ function DeveloperCard({ developer }) {
                         </a>
                     </Button>
                 )}
-
-                {/* PORTFOLIO */}
 
                 {developer.portfolio && (
                     <Button
