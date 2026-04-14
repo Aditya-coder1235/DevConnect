@@ -59,7 +59,7 @@ async function getProjectById(req, res) {
 
         const project = await Project
             .findById(id)
-            .populate("owner", "name email")
+            .populate("owner", "name email avatar bio skills github portfolio")
             .populate("members", "name email");
 
         if (!project) {

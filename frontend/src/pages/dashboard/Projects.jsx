@@ -6,6 +6,10 @@ import { Input } from "@/components/ui/input";
 
 const Projects = () => {
     const [project, setProject] = useState([]);
+    const [allProjects, setAllProjects] = useState([]);
+const [selectedStack, setSelectedStack] = useState("");
+    const [search, setsearch] = useState("");
+
     async function fetchProject() {
         try {
             let res = await axios.get("http://localhost:8080/api/project", {
@@ -13,6 +17,7 @@ const Projects = () => {
             });
 
             setProject(res.data.projects);
+            setAllProjects(res.data.projects);
             //  navigate("/dashboard/myProjects");
         } catch (error) {
             console.log(error);
@@ -23,17 +28,63 @@ const Projects = () => {
         fetchProject();
     }, []);
 
+   let allStackTags = [
+       "React",
+       "Next.js",
+       "TypeScript",
+       "JavaScript",
+       "Node.js",
+       "Express",
+       "MongoDB",
+       "PostgreSQL",
+       "MySQL",
+       "Prisma",
+       "GraphQL",
+       "Tailwind",
+       "Bootstrap",
+       "Material UI",
+       "Redux",
+       "Zustand",
+       "Storybook",
+       "Go",
+       "Python",
+       "Django",
+       "Flask",
+       "Redis",
+       "Docker",
+       "Kubernetes",
+       "AWS",
+       "Firebase",
+       "Supabase",
+       "OpenTelemetry",
+       "gRPC",
+       "WebSocket",
+       "Socket.io",
+       "CI/CD",
+       "Jest",
+       "Cypress",
+       "React Native",
+       "Flutter",
+       "Electron",
+   ];
 
-  let allStackTags = [
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "Storybook",
-      "Go",
-      "Redis",
-      "OpenTelemetry",
-      "gRPC",
-  ];
+    // console.log(project.techStack);
+
+    useEffect(() => {
+        let filtered = allProjects.filter((project) => {
+            const matchTitle = project.title
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+            const matchStack =
+                selectedStack === "" ||
+                project.techStack?.includes(selectedStack);
+
+            return matchTitle && matchStack;
+        });
+
+        setProject(filtered);
+    }, [search, selectedStack, allProjects]);
 
     return (
         <div className="space-y-8">
@@ -48,7 +99,13 @@ const Projects = () => {
                     </p>
                 </div>
                 <div>
-                  <Input type="text" placeholder="Search by title..." className={"w-80"}/>
+                    <Input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setsearch(e.target.value)}
+                        placeholder="Search by title..."
+                        className={"w-80"}
+                    />
                 </div>
             </div>
 
@@ -57,12 +114,30 @@ const Projects = () => {
                     Filter by tech stack
                 </p>
                 <div className="flex flex-wrap gap-2">
-                    <button type="button">
-                        <Badge>All</Badge>
+                    <button type="button" onClick={() => setSelectedStack("")}>
+                        <Badge
+                            variant={
+                                selectedStack === "" ? "default" : "outline"
+                            }
+                        >
+                            All
+                        </Badge>
                     </button>
                     {allStackTags.map((tag) => (
-                        <button key={tag} type="button">
-                            <Badge>{tag}</Badge>
+                        <button
+                            key={tag}
+                            type="button"
+                            onClick={() => setSelectedStack(tag)}
+                        >
+                            <Badge
+                                variant={
+                                    selectedStack === tag
+                                        ? "default"
+                                        : "outline"
+                                }
+                            >
+                                {tag}
+                            </Badge>
                         </button>
                     ))}
                 </div>

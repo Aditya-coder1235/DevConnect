@@ -21,6 +21,7 @@ import Notification from "@/pages/dashboard/Notification";
 import UpdateProfile from "@/pages/dashboard/UpdateProfile";
 import CreateProject from "@/pages/dashboard/CreateProject";
 import ProjectDetails from "@/pages/dashboard/ProjectDetails";
+import NotFound from "@/components/NotFound";
 
 const AppRoutes = () => {
     return (
@@ -55,6 +56,8 @@ const AppRoutes = () => {
 
                 <Route index path="settings" element={<Setting />} />
             </Route>
+
+            <Route path="*" element={<NotFound/>}></Route>
         </Routes>
     );
 };

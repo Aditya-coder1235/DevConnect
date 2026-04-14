@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 
 const Developers = () => {
     const [developer, setDeveloper] = useState([]);
+    const [allDeveloper, setAllDeveloper] = useState([]);
+
+    const [search, setSearch] = useState("");
 
     async function fetchProfile() {
         try {
@@ -15,6 +18,7 @@ const Developers = () => {
                 },
             );
             setDeveloper(res.data.allUsers);
+            setAllDeveloper(res.data.allUsers);
         } catch (error) {
             console.log(error);
         }
@@ -23,6 +27,16 @@ const Developers = () => {
     useEffect(() => {
         fetchProfile();
     }, []);
+
+    useEffect(() => {
+        let filterUser = allDeveloper.filter((dev) =>
+            dev.name.toLowerCase().includes(search.toLowerCase()),
+        );
+
+        setDeveloper(filterUser);
+
+    }, [search]);
+
     // console.log(developer);
 
     return (
@@ -39,14 +53,20 @@ const Developers = () => {
                 <Input
                     placeholder="Search by name, handle, or skill…"
                     className="max-w-sm"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {developer.map((developer) => {
-                    return <DeveloperCard key={developer._id} developer={developer} />;
+                    return (
+                        <DeveloperCard
+                            key={developer._id}
+                            developer={developer}
+                        />
+                    );
                 })}
             </div>
-            
         </div>
     );
 };

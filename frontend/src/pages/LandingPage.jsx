@@ -64,7 +64,7 @@ const LandingPage = () => {
                     >
                         <Link to="/" className="flex items-center gap-2">
                             <span className="">
-                                <img src="/logo1.png" alt="" className="h-10"/>
+                                <img src="/logo1.png" alt="" className="h-10" />
                             </span>
                             <span className="text-sm font-semibold">
                                 DevConnect
@@ -129,7 +129,7 @@ const LandingPage = () => {
                 </header>
 
                 <section className="relative overflow-hidden border-b border-border/60">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/30" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-sky-500/30 via-transparent to-cyan-500/30 blur-3xl" />
 
                     <div
                         className={`relative ${containerClass} py-16 md:py-24`}
@@ -157,9 +157,9 @@ const LandingPage = () => {
                                     </Link>
                                 </Button>
 
-                                <Button size="lg" variant="outline" asChild>
+                                {/* <Button size="lg" variant="outline" asChild>
                                     <Link to="/projects">Explore Projects</Link>
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
 
@@ -335,7 +335,7 @@ const LandingPage = () => {
                                     return (
                                         <div
                                             key={p.num}
-                                            className="bg-card text-foreground border border-border h-30 shadow rounded flex flex-col items-center justify-center gap-2"
+                                            className="bg-card text-foreground border border-border h-30 shadow rounded flex flex-col items-center justify-center gap-2 "
                                         >
                                             <h2 className="text-2xl font-semibold">
                                                 {p.num}
@@ -406,7 +406,11 @@ const LandingPage = () => {
                                     className="flex items-center gap-2"
                                 >
                                     <span className="">
-                                        <img src="/logo1.png" alt="" className="h-10"/>
+                                        <img
+                                            src="/logo1.png"
+                                            alt=""
+                                            className="h-10"
+                                        />
                                     </span>
                                     <span className="font-semibold tracking-tight">
                                         DevConnect
@@ -440,7 +444,7 @@ const LandingPage = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            to="/developers"
+                                            to="/signup"
                                             className="hover:text-foreground"
                                         >
                                             Developers
@@ -463,7 +467,7 @@ const LandingPage = () => {
                                 <ul className="space-y-3 text-sm text-muted-foreground">
                                     <li>
                                         <Link
-                                            to="/dashboard"
+                                            to="/signup"
                                             className="hover:text-foreground"
                                         >
                                             Dashboard
@@ -471,7 +475,7 @@ const LandingPage = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            to="/messages"
+                                            to="/signup"
                                             className="hover:text-foreground"
                                         >
                                             Messages
@@ -526,8 +530,7 @@ const LandingPage = () => {
                             </div>
                         </div>
                         <p className="mt-12 border-t border-border pt-8 text-center text-xs text-muted-foreground">
-                            © {new Date().getFullYear()} DevConnect. UI
-                            reference only — no backend.
+                            © {new Date().getFullYear()} DevConnect.
                         </p>
                     </div>
                 </footer>

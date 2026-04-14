@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
 import Swal from "sweetalert2";
+import DeveloperCard from "@/components/DeveloperCard";
 
 const ProjectDetails = () => {
     const [project, setProject] = useState(null);
@@ -124,7 +125,7 @@ const ProjectDetails = () => {
 
     const isOwner=project?.owner?._id===userId
 
-    // console.log(isOwner);
+    console.log(project?.owner);
 
     return (
         <div>
@@ -202,7 +203,9 @@ const ProjectDetails = () => {
                             )}
                         </div>
                     </div>
-
+                    <Separator />
+                    <h1 className="font-bold pb-0 mb-2">Project Creator</h1>
+                    <DeveloperCard developer={project?.owner} />
                     <Separator />
 
                     <div className="grid gap-6 lg:grid-cols-3">

@@ -20,7 +20,7 @@ const NavBar = () => {
         <nav className="sticky top-0 z-50 border-b h-15 w-full bg-background backdrop-blur-md ">
             <div className="mx-auto flex h-15 max-w-7xl w-full  items-center justify-between px-6">
                 <div className="relative w-96">
-                    <Search
+                    {/* <Search
                         className="absolute left-3 top-2.5 opacity-50"
                         size={18}
                     />
@@ -28,7 +28,7 @@ const NavBar = () => {
                         type="text"
                         placeholder="Search projects, people..."
                         className="w-full rounded-md border bg-background py-2 pl-10 pr-3 text-sm outline-none focus:ring-2 focus:ring-primary"
-                    />
+                    /> */}
                 </div>
                 <div className="flex items-center gap-2">
                     <Button
