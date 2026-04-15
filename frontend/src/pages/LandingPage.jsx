@@ -129,7 +129,7 @@ const LandingPage = () => {
                 </header>
 
                 <section className="relative overflow-hidden border-b border-border/60">
-                    <div className="absolute inset-0 bg-gradient-to-br from-sky-500/30 via-transparent to-cyan-500/30 blur-3xl" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-500/30 via-transparent to-black-500/30 blur-3xl" />
 
                     <div
                         className={`relative ${containerClass} py-16 md:py-24`}

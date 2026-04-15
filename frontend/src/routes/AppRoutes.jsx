@@ -17,11 +17,11 @@ import Projects from "@/pages/dashboard/Projects";
 import MyProjects from "@/pages/dashboard/MyProjects";
 import Profile from "@/pages/dashboard/Profile";
 import Setting from "@/pages/dashboard/Setting";
-import Notification from "@/pages/dashboard/Notification";
 import UpdateProfile from "@/pages/dashboard/UpdateProfile";
 import CreateProject from "@/pages/dashboard/CreateProject";
 import ProjectDetails from "@/pages/dashboard/ProjectDetails";
 import NotFound from "@/components/NotFound";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const AppRoutes = () => {
     return (
@@ -32,7 +32,14 @@ const AppRoutes = () => {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-            <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
                 {/* <Route index element={<Index />} /> */}
                 <Route index path="dash" element={<Dash />} />
                 <Route index path="developer" element={<Developers />} />
@@ -44,7 +51,6 @@ const AppRoutes = () => {
                 <Route index path="projects" element={<Projects />} />
                 <Route index path="myProjects" element={<MyProjects />} />
                 <Route index path="profile" element={<Profile />} />
-                <Route index path="notification" element={<Notification />} />
                 <Route index path="updateProfile" element={<UpdateProfile />} />
                 <Route index path="createProject" element={<CreateProject />} />
                 <Route index path="message" element={<MessagesList />} />
@@ -57,7 +63,7 @@ const AppRoutes = () => {
                 <Route index path="settings" element={<Setting />} />
             </Route>
 
-            <Route path="*" element={<NotFound/>}></Route>
+            <Route path="*" element={<NotFound />}></Route>
         </Routes>
     );
 };

@@ -166,7 +166,6 @@ const MessagesPage = () => {
 
 
             <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-                {/* CHAT HEADER */}
 
                 <header className="flex items-center gap-3 border-b border-border px-4 py-3">
                     <Avatar className="size-9">

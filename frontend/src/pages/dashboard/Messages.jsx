@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:8080");
+import { socket } from "./socket/socket";
 
 const Messages = () => {
     const { conversationId } = useParams();
@@ -14,8 +12,6 @@ const Messages = () => {
     const userId = localStorage.getItem("id");
 
     const scrollRef = useRef();
-
-    
 
     useEffect(() => {
         async function getMessages() {
@@ -34,8 +30,6 @@ const Messages = () => {
         getMessages();
     }, [conversationId]);
 
-  
-
     useEffect(() => {
         socket.emit("addUser", userId);
 
@@ -53,7 +47,6 @@ const Messages = () => {
         return () => socket.off("getMessage");
     }, [userId, conversationId]);
 
-   
     async function sendMessage() {
         if (!text) return;
 
@@ -87,24 +80,17 @@ const Messages = () => {
         }
     }
 
-
-
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-  
-
     const conversation = messages[0]?.conversationId;
 
     const friend = conversation?.members?.find((m) => m._id !== userId);
-
     const me = conversation?.members?.find((m) => m._id === userId);
 
     return (
         <div className="flex flex-col h-[calc(100vh-80px)] bg-background rounded-xl border shadow-sm overflow-hidden">
-            {/* HEADER */}
-
             <div className="flex items-center gap-3 px-5 py-4 border-b bg-muted/40">
                 <img
                     src={friend?.avatar || "https://i.pravatar.cc/150"}
@@ -120,8 +106,6 @@ const Messages = () => {
                 </div>
             </div>
 
-            {/* MESSAGES */}
-
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 bg-muted/20">
                 {messages.map((msg, index) => (
                     <div
@@ -133,8 +117,6 @@ const Messages = () => {
                                 : "justify-start"
                         }`}
                     >
-                        {/* FRIEND AVATAR */}
-
                         {msg.sender !== userId && (
                             <img
                                 src={
@@ -144,8 +126,6 @@ const Messages = () => {
                                 className="w-8 h-8 rounded-full object-cover"
                             />
                         )}
-
-                        {/* MESSAGE */}
 
                         <div
                             className={`max-w-xs px-4 py-2 rounded-2xl text-sm shadow-sm ${
@@ -157,8 +137,6 @@ const Messages = () => {
                             {msg.text}
                         </div>
 
-                        {/* MY AVATAR */}
-
                         {msg.sender === userId && (
                             <img
                                 src={me?.avatar || "https://i.pravatar.cc/150"}
@@ -168,8 +146,6 @@ const Messages = () => {
                     </div>
                 ))}
             </div>
-
-            {/* INPUT */}
 
             <div className="p-4 border-t bg-background">
                 <div className="flex items-center gap-2 bg-muted rounded-xl px-3 py-2">

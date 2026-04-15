@@ -33,7 +33,6 @@ import {
     Code,
     Search,
     MessageCircle,
-    CircleAlert,
 } from "lucide-react";
 
 import Swal from "sweetalert2";
@@ -146,15 +145,6 @@ function AppSidebar() {
                                     <Link to="/dashboard/developer">
                                         <User />
                                         <span>Developers</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="/dashboard/notification">
-                                        <CircleAlert />
-                                        <span>Notification</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

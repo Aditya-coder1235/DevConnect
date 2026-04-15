@@ -38,13 +38,12 @@ app.use('/api/project', projectRouter)
 app.use('/api/conversation', conversationRouter)
 app.use('/api/message', messageRouter)
 
-
-
 const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173"
+        origin: "http://localhost:5173",
+        credentials: true
     }
 })
 
@@ -56,22 +55,31 @@ io.on("connection", (socket) => {
 
     socket.on("addUser", (userId) => {
 
-        if (!onlineUsers.some(user => user.userId === userId)) {
+        // console.log("addUser event received:", userId)
+
+        const existing = onlineUsers.find(user => user.userId === userId)
+        if (existing) {
+            existing.socketId = socket.id
+        } else {
             onlineUsers.push({
                 userId,
                 socketId: socket.id
             })
         }
 
+        // console.log("Online users:", onlineUsers)
     })
 
     socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+
+        // console.log("Message send event:", senderId, receiverId)
 
         const user = onlineUsers.find(
             user => user.userId === receiverId
         )
 
         if (user) {
+
             io.to(user.socketId).emit("getMessage", {
                 senderId,
                 text
@@ -90,7 +98,6 @@ io.on("connection", (socket) => {
     })
 
 })
-
 
 server.listen(port, () => {
     console.log(`Server start on ${port}`)
