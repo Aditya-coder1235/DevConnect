@@ -100,7 +100,6 @@ function LoginPage() {
                 <CardContent>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <FieldGroup>
-                            {/* Email */}
                             <Controller
                                 name="email"
                                 control={form.control}
@@ -124,7 +123,6 @@ function LoginPage() {
                                 )}
                             />
 
-                            {/* Password */}
                             <Controller
                                 name="password"
                                 control={form.control}
@@ -147,14 +145,7 @@ function LoginPage() {
                                 )}
                             />
                         </FieldGroup>
-                        <div className="flex justify-start mt-4">
-                            <span
-                                className="text-sm text-primary cursor-pointer"
-                                onClick={() => navigate("/forgot-password")}
-                            >
-                                Forgot Password?
-                            </span>
-                        </div>
+                        
 
                         <div className="mt-4">
                             <Button

@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-
+const Project = require('../models/project.model');
 
 async function completeProfile(req, res) {
     try {
@@ -97,6 +97,7 @@ async function deleteAccount(req, res) {
         // if (!isMatch) {
         //     return res.status(400).json({ message: "Invalid Password!" });
         // }
+        await Project.deleteMany({ owner: req.user.id });
 
         await user.deleteOne();
 

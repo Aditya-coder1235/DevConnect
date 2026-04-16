@@ -1,7 +1,6 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const crypto=require('crypto');
 
 async function signupUser(req, res) {
     try {
@@ -94,73 +93,4 @@ async function logoutUser(req, res) {
 }
 
 
-
-async function forgotPassword(req, res) {
-    try {
-
-        const { email } = req.body;
-
-        const user = await User.findOne({ email });
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const resetToken = crypto.randomBytes(32).toString("hex");
-
-        user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = Date.now() + 15 * 60 * 1000;
-
-        await user.save();
-
-        const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
-
-        res.status(200).json({
-            message: "Password reset link generated",
-            resetLink
-        });
-
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-    }
-}
-
-
-async function resetPassword(req, res) {
-
-    try {
-
-        const { token } = req.params;
-        const { password } = req.body;
-
-        const user = await User.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.status(400).json({
-                message: "Invalid or expired token"
-            });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        user.password = hashedPassword;
-
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpires = undefined;
-
-        await user.save();
-
-        res.status(200).json({
-            message: "Password reset successful"
-        });
-
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-    }
-
-}
-
-module.exports = { signupUser, loginUser, logoutUser, forgotPassword, resetPassword }
+module.exports = { signupUser, loginUser, logoutUser }

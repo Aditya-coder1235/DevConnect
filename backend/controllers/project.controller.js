@@ -106,6 +106,10 @@ async function joinProject(req, res) {
             return res.status(404).json({ message: "Project not found" });
         }
 
+        if(project.owner.toString() === req.user.id) {
+            return res.status(400).json({ message: "Owner cannot join project" });
+        }
+
         if (project.members.includes(req.user.id)) {
             return res.status(400).json({ message: "Already joined project" });
         }

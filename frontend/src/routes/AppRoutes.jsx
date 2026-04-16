@@ -5,8 +5,7 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import SignupPage from "@/pages/auth/SignupPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import LandingPage from "@/pages/LandingPage";
-import ForgotPassword from "@/pages/auth/ForgotPassword";
-import ResetPassword from "@/pages/auth/ResetPassword";
+
 
 // import Index from "@/pages/Index";
 import Dash from "@/pages/dashboard/Dash";
@@ -29,8 +28,6 @@ const AppRoutes = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
 
             <Route
                 path="/dashboard"

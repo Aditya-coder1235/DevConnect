@@ -96,6 +96,8 @@ function DeveloperCard({ developer }) {
         }
     }
 
+    // console.log(developer);
+
     return (
         <Card className="flex flex-col transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-start gap-4 space-y-0 pb-3">
