@@ -44,7 +44,7 @@ const Dash = () => {
      async function fetchProject() {
          try {
              let res = await axios.get(
-                 "http://localhost:8080/api/project",
+                 "https://devconnect-1-sl2s.onrender.com/api/project",
                  { withCredentials: true },
              );
 

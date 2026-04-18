@@ -32,7 +32,7 @@ function DeveloperCard({ developer }) {
     async function followDev(id) {
         try {
             await axios.post(
-                `http://localhost:8080/api/user/follow/${id}`,
+                `https://devconnect-1-sl2s.onrender.com/api/user/follow/${id}`,
                 {},
                 { withCredentials: true },
             );
@@ -55,7 +55,7 @@ function DeveloperCard({ developer }) {
     async function unFollowDev(id) {
         try {
             await axios.post(
-                `http://localhost:8080/api/user/unfollow/${id}`,
+                `https://devconnect-1-sl2s.onrender.com/api/user/unfollow/${id}`,
                 {},
                 { withCredentials: true },
             );
@@ -79,7 +79,7 @@ function DeveloperCard({ developer }) {
     async function startConversation(receiverId) {
         try {
             const res = await axios.post(
-                `http://localhost:8080/api/conversation/start/${receiverId}`,
+                `https://devconnect-1-sl2s.onrender.com/api/conversation/start/${receiverId}`,
                 {},
                 { withCredentials: true },
             );

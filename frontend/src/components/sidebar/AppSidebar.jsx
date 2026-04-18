@@ -44,7 +44,7 @@ function AppSidebar() {
     const logoutUser = async () => {
         try {
             await axios.post(
-                "http://localhost:8080/api/auth/logout",
+                "https://devconnect-1-sl2s.onrender.com/api/auth/logout",
                 {},
                 { withCredentials: true },
             );
@@ -61,7 +61,7 @@ function AppSidebar() {
     const deleteAccount = async () => {
         try {
             const res = await axios.delete(
-                "http://localhost:8080/api/user/delete",
+                "https://devconnect-1-sl2s.onrender.com/api/user/delete",
                 {
                     withCredentials: true,
                 },

@@ -10,7 +10,7 @@ const MyProjects = () => {
     async function fetchProject() {
         try {
             let res = await axios.get(
-                "http://localhost:8080/api/project/owner",
+                "https://devconnect-1-sl2s.onrender.com/api/project/owner",
                 {
                     withCredentials: true,
                 },

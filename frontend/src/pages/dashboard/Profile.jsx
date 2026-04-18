@@ -90,7 +90,7 @@ function Profile() {
 
         try {
             const res = await axios.post(
-                "http://localhost:8080/api/user/complete",
+                "https://devconnect-1-sl2s.onrender.com/api/user/complete",
                 {
                     avatar,
                     bio,
@@ -128,7 +128,7 @@ function Profile() {
     async function fetchProfile() {
         try {
             const res = await axios.get(
-                "http://localhost:8080/api/user/getProfile",
+                "https://devconnect-1-sl2s.onrender.com/api/user/getProfile",
                 {
                     withCredentials: true,
                 },

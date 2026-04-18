@@ -47,7 +47,7 @@ function LoginPage() {
             setLoading(true);
 
             const res = await axios.post(
-                "http://localhost:8080/api/auth/login",
+                "https://devconnect-1-sl2s.onrender.com/api/auth/login",
                 {
                     email: data.email,
                     password: data.password,

@@ -22,7 +22,7 @@ const MessagesPage = () => {
         async function fetchConversations() {
             try {
                 const res = await axios.get(
-                    `http://localhost:8080/api/conversation/${userId}`,
+                    `https://devconnect-1-sl2s.onrender.com/api/conversation/${userId}`,
                     { withCredentials: true },
                 );
 
@@ -57,7 +57,7 @@ const MessagesPage = () => {
         async function fetchMessages() {
             try {
                 const res = await axios.get(
-                    `http://localhost:8080/api/message/${activeThreadId}`,
+                    `https://devconnect-1-sl2s.onrender.com/api/message/${activeThreadId}`,
                     { withCredentials: true },
                 );
 
@@ -90,7 +90,7 @@ const MessagesPage = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:8080/api/message",
+                "https://devconnect-1-sl2s.onrender.com/api/message",
                 {
                     conversationId: activeThreadId,
                     text: draft,

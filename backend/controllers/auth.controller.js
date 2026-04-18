@@ -55,10 +55,10 @@ async function loginUser(req, res) {
 
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: "lax",
-            secure: false,
+            sameSite: "none",
+            secure: true,
             maxAge: 2 * 24 * 60 * 60 * 1000
-        })
+        });
 
         res.status(200).json({
             message: "User Login!", user: {
@@ -79,8 +79,8 @@ async function logoutUser(req, res) {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            sameSite: "lax",
-            secure: false,
+            sameSite: "none",
+            secure: true,
             maxAge: 2 * 24 * 60 * 60 * 1000
         });
 

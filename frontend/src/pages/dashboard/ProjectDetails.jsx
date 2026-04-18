@@ -19,7 +19,7 @@ const ProjectDetails = () => {
     async function fetchProject() {
         try {
             let res = await axios.get(
-                `http://localhost:8080/api/project/${id}`,
+                `https://devconnect-1-sl2s.onrender.com/api/project/${id}`,
                 {
                     withCredentials: true,
                 },
@@ -39,7 +39,7 @@ const ProjectDetails = () => {
     async function joinProject() {
         try {
             let res = await axios.post(
-                `http://localhost:8080/api/project/${id}/join`,
+                `https://devconnect-1-sl2s.onrender.com/api/project/${id}/join`,
                 {},
                 {
                     withCredentials: true,
@@ -67,7 +67,7 @@ const ProjectDetails = () => {
     async function leaveProject() {
         try {
             let res = await axios.post(
-                `http://localhost:8080/api/project/${id}/leave`,
+                `https://devconnect-1-sl2s.onrender.com/api/project/${id}/leave`,
                 {},
                 {
                     withCredentials: true,
@@ -95,7 +95,7 @@ const ProjectDetails = () => {
     async function deleteProject() {
         try {
             let res = await axios.delete(
-                `http://localhost:8080/api/project/${id}`,
+                `https://devconnect-1-sl2s.onrender.com/api/project/${id}`,
                 {
                     withCredentials: true,
                 },

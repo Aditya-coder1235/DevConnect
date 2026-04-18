@@ -12,9 +12,12 @@ const [selectedStack, setSelectedStack] = useState("");
 
     async function fetchProject() {
         try {
-            let res = await axios.get("http://localhost:8080/api/project", {
-                withCredentials: true,
-            });
+            let res = await axios.get(
+                "https://devconnect-1-sl2s.onrender.com/api/project",
+                {
+                    withCredentials: true,
+                },
+            );
 
             setProject(res.data.projects);
             setAllProjects(res.data.projects);

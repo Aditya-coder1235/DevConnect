@@ -56,7 +56,7 @@ function SignupPage() {
             setLoading(true);
 
             const res = await axios.post(
-                "http://localhost:8080/api/auth/signup",
+                "https://devconnect-1-sl2s.onrender.com/api/auth/signup",
                 {
                     name: data.name,
                     email: data.email,
