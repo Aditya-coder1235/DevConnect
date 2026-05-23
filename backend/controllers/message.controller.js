@@ -1,5 +1,6 @@
 const Message = require("../models/message.model");
 
+
 async function sendMessage(req, res) {
 
     const { conversationId, text } = req.body;
@@ -14,7 +15,16 @@ async function sendMessage(req, res) {
 
         const savedMessage = await newMessage.save();
 
-        res.status(200).json(savedMessage);
+        const populatedMessage = await Message.findById(savedMessage._id)
+            .populate({
+                path: "conversationId",
+                populate: {
+                    path: "members",
+                    select: "name email avatar"
+                }
+            });
+
+        res.status(200).json(populatedMessage);
 
     } catch (error) {
         res.status(500).json(error);

@@ -19,7 +19,7 @@ const ProjectDetails = () => {
     async function fetchProject() {
         try {
             let res = await axios.get(
-                `https://devconnect-1-sl2s.onrender.com/api/project/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/project/${id}`,
                 {
                     withCredentials: true,
                 },
@@ -39,7 +39,7 @@ const ProjectDetails = () => {
     async function joinProject() {
         try {
             let res = await axios.post(
-                `https://devconnect-1-sl2s.onrender.com/api/project/${id}/join`,
+                `${import.meta.env.VITE_API_URL}/api/project/${id}/join`,
                 {},
                 {
                     withCredentials: true,
@@ -67,7 +67,7 @@ const ProjectDetails = () => {
     async function leaveProject() {
         try {
             let res = await axios.post(
-                `https://devconnect-1-sl2s.onrender.com/api/project/${id}/leave`,
+                `${import.meta.env.VITE_API_URL}/api/project/${id}/leave`,
                 {},
                 {
                     withCredentials: true,
@@ -95,7 +95,7 @@ const ProjectDetails = () => {
     async function deleteProject() {
         try {
             let res = await axios.delete(
-                `https://devconnect-1-sl2s.onrender.com/api/project/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/project/${id}`,
                 {
                     withCredentials: true,
                 },

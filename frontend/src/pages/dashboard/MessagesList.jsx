@@ -6,6 +6,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { socket } from "./socket/socket";
+
 
 import { Send } from "lucide-react";
 
@@ -22,7 +24,7 @@ const MessagesPage = () => {
         async function fetchConversations() {
             try {
                 const res = await axios.get(
-                    `https://devconnect-1-sl2s.onrender.com/api/conversation/${userId}`,
+                    `${import.meta.env.VITE_API_URL}/api/conversation/${userId}`,
                     { withCredentials: true },
                 );
 
@@ -50,6 +52,8 @@ const MessagesPage = () => {
         fetchConversations();
     }, [userId]);
 
+    // console.log(activeThreadId)
+
 
     useEffect(() => {
         if (!activeThreadId) return;
@@ -57,9 +61,11 @@ const MessagesPage = () => {
         async function fetchMessages() {
             try {
                 const res = await axios.get(
-                    `https://devconnect-1-sl2s.onrender.com/api/message/${activeThreadId}`,
+                    `${import.meta.env.VITE_API_URL}/api/message/${activeThreadId}`,
                     { withCredentials: true },
                 );
+
+                // console.log(res.data);
 
                 const formatted = res.data.map((msg) => ({
                     id: msg._id,
@@ -90,13 +96,18 @@ const MessagesPage = () => {
 
         try {
             const res = await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/message",
+                `${import.meta.env.VITE_API_URL}/api/message`,
                 {
                     conversationId: activeThreadId,
                     text: draft,
                 },
                 { withCredentials: true },
             );
+
+            const receiverId = res.data.conversationId.members.find(
+                (m) => m._id !== userId,
+            )._id;
+
 
             setMessages((prev) => [
                 ...prev,
@@ -108,11 +119,37 @@ const MessagesPage = () => {
                 },
             ]);
 
+            // console.log(receiverId._id)
+
+            socket.emit("sendMessage", {
+                senderId: userId,
+                receiverId,
+                text: draft,
+            });
+
             setDraft("");
         } catch (error) {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        socket.emit("addUser", userId);
+
+        socket.on("getMessage", (data) => {
+            setMessages((prev) => [
+                ...prev,
+                {
+                    id: Date.now(),
+                    body: data.text,
+                    author: "other",
+                    time: new Date().toLocaleTimeString(),
+                },
+            ]);
+        });
+
+        return () => socket.off("getMessage");
+    }, [userId]);
 
     return (
         <div className="flex h-[min(640px,calc(100dvh-12rem))] min-h-[420px] overflow-hidden rounded-lg border border-border bg-card shadow-sm">

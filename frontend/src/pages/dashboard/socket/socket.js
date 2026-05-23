@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
 
-export const socket = io("https://devconnect-1-sl2s.onrender.com", {
+export const socket = io(import.meta.env.VITE_API_URL, {
     withCredentials: true,
 });

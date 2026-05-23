@@ -17,7 +17,7 @@ const Messages = () => {
         async function getMessages() {
             try {
                 const res = await axios.get(
-                    `https://devconnect-1-sl2s.onrender.com/api/message/${conversationId}`,
+                    `${import.meta.env.VITE_API_URL}/api/message/${conversationId}`,
                     { withCredentials: true },
                 );
 
@@ -52,7 +52,7 @@ const Messages = () => {
 
         try {
             const res = await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/message",
+                `${import.meta.env.VITE_API_URL}/api/message`,
                 {
                     conversationId,
                     text,

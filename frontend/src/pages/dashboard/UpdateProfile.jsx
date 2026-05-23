@@ -54,7 +54,7 @@ const UpdateProfile = () => {
 
          try {
              const res = await axios.put(
-                 "https://devconnect-1-sl2s.onrender.com/api/user/update",
+                 `${import.meta.env.VITE_API_URL}/api/user/update`,
                  {
                      avatar,
                      bio,

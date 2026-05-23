@@ -12,7 +12,7 @@ const Developers = () => {
     async function fetchProfile() {
         try {
             const res = await axios.get(
-                "https://devconnect-1-sl2s.onrender.com/api/user/getAllProfile",
+                `${import.meta.env.VITE_API_URL}/api/user/getAllProfile`,
                 {
                     withCredentials: true,
                 },

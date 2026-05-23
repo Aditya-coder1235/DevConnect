@@ -56,7 +56,7 @@ function SignupPage() {
             setLoading(true);
 
             const res = await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/auth/signup",
+                `${import.meta.env.VITE_API_URL}/api/auth/signup`,
                 {
                     name: data.name,
                     email: data.email,

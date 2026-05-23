@@ -44,7 +44,7 @@ function AppSidebar() {
     const logoutUser = async () => {
         try {
             await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/auth/logout",
+                `${import.meta.env.VITE_API_URL}/api/auth/logout`,
                 {},
                 { withCredentials: true },
             );
@@ -61,7 +61,7 @@ function AppSidebar() {
     const deleteAccount = async () => {
         try {
             const res = await axios.delete(
-                "https://devconnect-1-sl2s.onrender.com/api/user/delete",
+                `${import.meta.env.VITE_API_URL}/api/user/delete`,
                 {
                     withCredentials: true,
                 },

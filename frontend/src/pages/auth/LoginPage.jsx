@@ -47,7 +47,7 @@ function LoginPage() {
             setLoading(true);
 
             const res = await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/auth/login",
+                `${import.meta.env.VITE_API_URL}/api/auth/login`,
                 {
                     email: data.email,
                     password: data.password,

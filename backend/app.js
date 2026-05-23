@@ -17,8 +17,13 @@ dbConnect()
 app.use(express.json())
 app.use(cookieParser())
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://devconnect101.vercel.app",
+]
+
 app.use(cors({
-    origin: "https://devconnect101.vercel.app",
+    origin: allowedOrigins,
     credentials: true
 }))
 
@@ -42,7 +47,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: "https://devconnect101.vercel.app",
+        origin: allowedOrigins,
         credentials: true
     }
 })

@@ -32,7 +32,7 @@ function DeveloperCard({ developer }) {
     async function followDev(id) {
         try {
             await axios.post(
-                `https://devconnect-1-sl2s.onrender.com/api/user/follow/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/user/follow/${id}`,
                 {},
                 { withCredentials: true },
             );
@@ -55,7 +55,7 @@ function DeveloperCard({ developer }) {
     async function unFollowDev(id) {
         try {
             await axios.post(
-                `https://devconnect-1-sl2s.onrender.com/api/user/unfollow/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/user/unfollow/${id}`,
                 {},
                 { withCredentials: true },
             );
@@ -79,7 +79,7 @@ function DeveloperCard({ developer }) {
     async function startConversation(receiverId) {
         try {
             const res = await axios.post(
-                `https://devconnect-1-sl2s.onrender.com/api/conversation/start/${receiverId}`,
+                `${import.meta.env.VITE_API_URL}/api/conversation/start/${receiverId}`,
                 {},
                 { withCredentials: true },
             );

@@ -78,7 +78,7 @@ function CreateProject() {
     async function createProject() {
         try {
             let res = await axios.post(
-                "https://devconnect-1-sl2s.onrender.com/api/project/create",
+                `${import.meta.env.VITE_API_URL}/api/project/create`,
                 { title, description, teamSize, status, techStack, githubLink },
                 { withCredentials: true },
             );
