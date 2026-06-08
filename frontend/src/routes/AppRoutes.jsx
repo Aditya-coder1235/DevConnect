@@ -21,6 +21,7 @@ import CreateProject from "@/pages/dashboard/CreateProject";
 import ProjectDetails from "@/pages/dashboard/ProjectDetails";
 import NotFound from "@/components/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Editor from "@/pages/dashboard/Editor";
 
 const AppRoutes = () => {
     return (
@@ -37,7 +38,6 @@ const AppRoutes = () => {
                     </ProtectedRoute>
                 }
             >
-                {/* <Route index element={<Index />} /> */}
                 <Route index path="dash" element={<Dash />} />
                 <Route index path="developer" element={<Developers />} />
                 <Route
@@ -51,6 +51,8 @@ const AppRoutes = () => {
                 <Route index path="updateProfile" element={<UpdateProfile />} />
                 <Route index path="createProject" element={<CreateProject />} />
                 <Route index path="message" element={<MessagesList />} />
+                <Route index path="editor/:roomId" element={<Editor />} />
+
                 <Route
                     index
                     path="projectDetail/:id"

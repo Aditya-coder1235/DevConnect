@@ -1,4 +1,4 @@
-import { GitBranch, Link2 } from "lucide-react";
+import { GitBranch, Link2, Code2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -16,18 +16,36 @@ import {
 
 import axios from "axios";
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
+import { socket } from "../pages/dashboard/socket/socket";
 
 function DeveloperCard({ developer }) {
     const [isFollowing, setIsFollowing] = useState(false);
     const navigate = useNavigate();
 
     let userid = localStorage.getItem("id");
+    let userName = localStorage.getItem("name");
 
     useEffect(() => {
         if (developer.followers?.includes(userid)) {
             setIsFollowing(true);
         }
     }, [developer.followers, userid]);
+
+    function handleCodeTogether() {
+
+        const ids = [userid, developer._id].sort(); 
+        const roomId = `${ids[0]}-${ids[1]}`;
+
+        socket.emit("sendCodeInvite", {
+            senderId: userid,
+            senderName: userName,
+            receiverId: developer._id,
+            roomId,
+        });
+
+        navigate(`/dashboard/editor/${roomId}`);
+    }
 
     async function followDev(id) {
         try {
@@ -36,12 +54,7 @@ function DeveloperCard({ developer }) {
                 {},
                 { withCredentials: true },
             );
-
-            Swal.fire({
-                title: "Follow successful!",
-                icon: "success",
-            });
-
+            Swal.fire({ title: "Follow successful!", icon: "success" });
             setIsFollowing(true);
         } catch (error) {
             Swal.fire({
@@ -59,12 +72,7 @@ function DeveloperCard({ developer }) {
                 {},
                 { withCredentials: true },
             );
-
-            Swal.fire({
-                title: "Unfollow successful!",
-                icon: "success",
-            });
-
+            Swal.fire({ title: "Unfollow successful!", icon: "success" });
             setIsFollowing(false);
         } catch (error) {
             Swal.fire({
@@ -75,7 +83,6 @@ function DeveloperCard({ developer }) {
         }
     }
 
-
     async function startConversation(receiverId) {
         try {
             const res = await axios.post(
@@ -83,9 +90,7 @@ function DeveloperCard({ developer }) {
                 {},
                 { withCredentials: true },
             );
-
             const conversationId = res.data._id;
-
             navigate(`/dashboard/message/${conversationId}`);
         } catch (error) {
             Swal.fire({
@@ -95,8 +100,6 @@ function DeveloperCard({ developer }) {
             });
         }
     }
-
-    // console.log(developer);
 
     return (
         <Card className="flex flex-col transition-shadow hover:shadow-md">
@@ -108,7 +111,6 @@ function DeveloperCard({ developer }) {
                             alt={developer.name}
                         />
                     ) : null}
-
                     <AvatarFallback className="text-sm">
                         {developer.name}
                     </AvatarFallback>
@@ -119,7 +121,6 @@ function DeveloperCard({ developer }) {
                         <CardTitle className="text-base">
                             {developer.name}
                         </CardTitle>
-
                         <p className="text-sm text-muted-foreground">
                             @{developer.email}
                         </p>
@@ -152,7 +153,7 @@ function DeveloperCard({ developer }) {
             </CardContent>
 
             <CardFooter className="mt-auto flex flex-wrap gap-2 border-t border-border/60 bg-muted/30 pt-4">
-
+                {/* Chat button */}
                 <Button
                     size="sm"
                     className="flex-1 sm:flex-none"
@@ -161,6 +162,15 @@ function DeveloperCard({ developer }) {
                     Connect
                 </Button>
 
+                {/* Code Together button */}
+                <Button
+                    size="sm"
+                    className="flex-1 sm:flex-none"
+                    onClick={handleCodeTogether}
+                >
+                    <Code2 className="size-4 mr-1" />
+                    Code
+                </Button>
 
                 <Button
                     size="sm"
@@ -172,7 +182,6 @@ function DeveloperCard({ developer }) {
                     Follow
                 </Button>
 
-
                 <Button
                     size="sm"
                     variant="ghost"
@@ -182,7 +191,6 @@ function DeveloperCard({ developer }) {
                 >
                     Unfollow
                 </Button>
-
 
                 {developer.github && (
                     <Button

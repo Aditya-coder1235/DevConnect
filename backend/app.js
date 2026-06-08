@@ -4,6 +4,8 @@ require('dotenv').config()
 
 const http = require("http")
 const { Server } = require("socket.io")
+const WebSocket = require('ws')
+const { setupWSConnection } = require('y-websocket/bin/utils')
 
 const port = process.env.PORT
 const dbConnect = require('./config/db')
@@ -45,6 +47,14 @@ app.use('/api/message', messageRouter)
 
 const server = http.createServer(app)
 
+const wss = new WebSocket.Server({server })
+
+wss.on('connection', (ws, req) => {
+    setupWSConnection(ws, req)
+})
+
+console.log('Yjs WebSocket server running on port 8080')
+
 const io = new Server(server, {
     cors: {
         origin: allowedOrigins,
@@ -59,9 +69,6 @@ io.on("connection", (socket) => {
     console.log("User connected:", socket.id)
 
     socket.on("addUser", (userId) => {
-
-        // console.log("addUser event received:", userId)
-
         const existing = onlineUsers.find(user => user.userId === userId)
         if (existing) {
             existing.socketId = socket.id
@@ -71,34 +78,38 @@ io.on("connection", (socket) => {
                 socketId: socket.id
             })
         }
-
-        // console.log("Online users:", onlineUsers)
     })
 
     socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-
-        // console.log("Message send event:", senderId, receiverId)
-
         const user = onlineUsers.find(
             user => user.userId === receiverId
         )
-
         if (user) {
-
             io.to(user.socketId).emit("getMessage", {
                 senderId,
                 text
             })
         }
-
     })
 
-    socket.on("disconnect", () => {
 
+    socket.on("sendCodeInvite", ({ senderId, senderName, receiverId, roomId }) => {
+        const receiver = onlineUsers.find(user => user.userId === receiverId)
+
+        if (receiver) {
+            io.to(receiver.socketId).emit("getCodeInvite", {
+                senderId,
+                senderName,
+                roomId
+            })
+        }
+    })
+
+
+    socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter(
             user => user.socketId !== socket.id
         )
-
         console.log("User disconnected")
     })
 

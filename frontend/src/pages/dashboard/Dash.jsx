@@ -5,10 +5,21 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/ProjectCard";
 import axios from "axios";
+import { socket } from "./socket/socket";
 
 const Dash = () => {
     const navigate = useNavigate();
     const[project,setProject]=useState([])
+
+    useEffect(() => {
+        socket.on("getCodeInvite", ({ roomId }) => {
+            navigate(`/dashboard/editor/${roomId}`);
+        });
+
+        return () => {
+            socket.off("getCodeInvite");
+        };
+    }, []);
 
     useEffect(() => {
         const profileCompleted = localStorage.getItem("profile");
