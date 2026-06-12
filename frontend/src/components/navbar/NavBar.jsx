@@ -9,32 +9,20 @@ const NavBar = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (dark) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+        document.documentElement.classList.toggle("dark", dark);
     }, [dark]);
 
     return (
-        <nav className="sticky top-0 z-50 border-b h-15 w-full bg-background backdrop-blur-md ">
-            <div className="mx-auto flex h-15 max-w-7xl w-full  items-center justify-between px-6">
-                <div className="relative w-96">
-                    {/* <Search
-                        className="absolute left-3 top-2.5 opacity-50"
-                        size={18}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search projects, people..."
-                        className="w-full rounded-md border bg-background py-2 pl-10 pr-3 text-sm outline-none focus:ring-2 focus:ring-primary"
-                    /> */}
-                </div>
+        <nav className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-md">
+            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between pl-16 lg:pl-6 pr-4 sm:pr-6">
+                <div />
+
                 <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => setDark(!dark)}
+                        aria-label="Toggle theme"
                     >
                         {dark ? (
                             <Sun className="h-5 w-5" />
@@ -43,7 +31,10 @@ const NavBar = () => {
                         )}
                     </Button>
 
-                    <Avatar onClick={()=>navigate('/dashboard/profile')} className={"cursor-pointer"}>
+                    <Avatar
+                        onClick={() => navigate("/dashboard/profile")}
+                        className="cursor-pointer h-9 w-9 hover:opacity-80 transition-opacity"
+                    >
                         <AvatarImage src="https://github.com/evilrabbit.png" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>

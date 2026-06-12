@@ -7,18 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { socket } from "./socket/socket";
-
-
-import { Send } from "lucide-react";
+import { Send, ArrowLeft } from "lucide-react";
 
 const MessagesPage = () => {
     const [threads, setThreads] = useState([]);
     const [activeThreadId, setActiveThreadId] = useState(null);
     const [messages, setMessages] = useState([]);
     const [draft, setDraft] = useState("");
+    const [showChat, setShowChat] = useState(false);
 
     const userId = localStorage.getItem("id");
-
 
     useEffect(() => {
         async function fetchConversations() {
@@ -30,7 +28,6 @@ const MessagesPage = () => {
 
                 const formatted = res.data.map((conv) => {
                     const friend = conv.members.find((m) => m._id !== userId);
-
                     return {
                         id: conv._id,
                         name: friend?.name || "Developer",
@@ -52,9 +49,6 @@ const MessagesPage = () => {
         fetchConversations();
     }, [userId]);
 
-    // console.log(activeThreadId)
-
-
     useEffect(() => {
         if (!activeThreadId) return;
 
@@ -64,8 +58,6 @@ const MessagesPage = () => {
                     `${import.meta.env.VITE_API_URL}/api/message/${activeThreadId}`,
                     { withCredentials: true },
                 );
-
-                // console.log(res.data);
 
                 const formatted = res.data.map((msg) => ({
                     id: msg._id,
@@ -83,13 +75,12 @@ const MessagesPage = () => {
         fetchMessages();
     }, [activeThreadId, userId]);
 
-
     function onSelectThread(id) {
         setActiveThreadId(id);
+        setShowChat(true);
     }
 
     const active = threads.find((t) => t.id === activeThreadId);
-
 
     async function sendMessage() {
         if (!draft.trim()) return;
@@ -97,17 +88,13 @@ const MessagesPage = () => {
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/message`,
-                {
-                    conversationId: activeThreadId,
-                    text: draft,
-                },
+                { conversationId: activeThreadId, text: draft },
                 { withCredentials: true },
             );
 
             const receiverId = res.data.conversationId.members.find(
                 (m) => m._id !== userId,
             )._id;
-
 
             setMessages((prev) => [
                 ...prev,
@@ -118,8 +105,6 @@ const MessagesPage = () => {
                     time: new Date().toLocaleTimeString(),
                 },
             ]);
-
-            // console.log(receiverId._id)
 
             socket.emit("sendMessage", {
                 senderId: userId,
@@ -153,8 +138,10 @@ const MessagesPage = () => {
 
     return (
         <div className="flex h-[min(640px,calc(100dvh-12rem))] min-h-[420px] overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-
-            <aside className="hidden min-h-0 w-72 shrink-0 flex-col border-r border-border md:flex">
+            <aside
+                className={`flex min-h-0 w-full shrink-0 flex-col border-r border-border md:w-72
+                ${showChat ? "hidden md:flex" : "flex"}`}
+            >
                 <div className="border-b border-border px-4 py-3">
                     <p className="text-sm font-semibold">Conversations</p>
                     <p className="text-xs text-muted-foreground">
@@ -190,7 +177,6 @@ const MessagesPage = () => {
                                             {t.name}
                                         </span>
                                     </div>
-
                                     <p className="truncate text-xs text-muted-foreground">
                                         @{t.handle}
                                     </p>
@@ -201,10 +187,20 @@ const MessagesPage = () => {
                 </ScrollArea>
             </aside>
 
-
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-
+            <div
+                className={`flex min-h-0 min-w-0 flex-1 flex-col
+                ${showChat ? "flex" : "hidden md:flex"}`}
+            >
                 <header className="flex items-center gap-3 border-b border-border px-4 py-3">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="md:hidden shrink-0"
+                        onClick={() => setShowChat(false)}
+                    >
+                        <ArrowLeft className="size-4" />
+                    </Button>
+
                     <Avatar className="size-9">
                         <AvatarImage src={active?.avatar} />
                         <AvatarFallback>
@@ -220,7 +216,6 @@ const MessagesPage = () => {
                         <p className="truncate text-sm font-semibold">
                             {active?.name ?? "Select conversation"}
                         </p>
-
                         {active && (
                             <p className="truncate text-xs text-muted-foreground">
                                 @{active.handle}
@@ -229,17 +224,12 @@ const MessagesPage = () => {
                     </div>
                 </header>
 
-
                 <ScrollArea className="min-h-0 flex-1 p-4">
                     <div className="space-y-4">
                         {messages.map((m) => (
                             <div
                                 key={m.id}
-                                className={`flex ${
-                                    m.author === "me"
-                                        ? "justify-end"
-                                        : "justify-start"
-                                }`}
+                                className={`flex ${m.author === "me" ? "justify-end" : "justify-start"}`}
                             >
                                 <div
                                     className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
@@ -249,7 +239,6 @@ const MessagesPage = () => {
                                     }`}
                                 >
                                     <p>{m.body}</p>
-
                                     <p
                                         className={`mt-1 text-[10px] ${
                                             m.author === "me"
@@ -267,15 +256,14 @@ const MessagesPage = () => {
 
                 <Separator />
 
-
                 <div className="flex items-center gap-2 p-3">
                     <Input
                         placeholder="Message..."
                         value={draft}
                         onChange={(e) => setDraft(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                         className="flex-1"
                     />
-
                     <Button
                         type="button"
                         size="icon"

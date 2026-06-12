@@ -91,7 +91,7 @@ const [selectedStack, setSelectedStack] = useState("");
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
                         Browse projects
@@ -101,13 +101,13 @@ const [selectedStack, setSelectedStack] = useState("");
                         collaboration.
                     </p>
                 </div>
-                <div>
+                <div className="w-full sm:w-auto">
                     <Input
                         type="text"
                         value={search}
                         onChange={(e) => setsearch(e.target.value)}
                         placeholder="Search by title..."
-                        className={"w-80"}
+                        className="w-full sm:w-80"
                     />
                 </div>
             </div>
